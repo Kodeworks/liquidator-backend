@@ -2,4 +2,4 @@ build:
   docker:
     web: Dockerfile
 run:
-  web: docker-compose up
+  web: python /code/manage.py runserver 0.0.0.0:8000
