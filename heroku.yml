@@ -7,3 +7,4 @@ release:
   image: worker
 run:
   web: make
+  image: worker
