@@ -4,5 +4,6 @@ build:
 release:
   command:
     - make migrate
+  image: worker
 run:
   web: make
