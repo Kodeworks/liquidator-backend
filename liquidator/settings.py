@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 from datetime import timedelta
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -82,19 +83,15 @@ WSGI_APPLICATION = 'liquidator.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {}
-
-try:
-    os.environ['DATABASE_URL']
-    DATABASES['default'] = dj_database_url.config(default='DATABASE_URL')
-except:
-    DATABASES['default'] = {
+DATABASES = [
+    'default' = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
         'HOST': 'db',
         'PORT': 5432,
     }
+]
 
 
 # Password validation
@@ -185,3 +182,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost',
     'http://localhost:3000',
 )
+
+# HEROKU
+
+django_heroku.settings(locals())
