@@ -2,4 +2,4 @@ build:
   docker:
     web: Dockerfile
 run:
-  web: make
+  web: docker-compose up
