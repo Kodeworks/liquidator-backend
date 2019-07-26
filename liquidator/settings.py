@@ -82,15 +82,19 @@ WSGI_APPLICATION = 'liquidator.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
+DATABASES = {}
+
+try:
+    os.environ['DATABASE_URL']
+    DATABASES['default'] = dj_database_url.config(default='DATABASE_URL')
+except:
+    DATABASES['default'] = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
         'HOST': 'db',
         'PORT': 5432,
     }
-}
 
 
 # Password validation
@@ -178,5 +182,6 @@ except ImportError:
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
+    'http://localhost',
     'http://localhost:3000',
 )
