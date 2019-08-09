@@ -1,6 +1,12 @@
 from rest_framework import serializers
 from base.serializers import LiquidatorSerializer
-from .models import Transaction, RecurringTransaction, TransactionTemplate
+from .models import Category, Transaction, RecurringTransaction, TransactionTemplate
+
+
+class CategorySerializer(LiquidatorSerializer):
+    class Meta:
+        model = Category
+        fields = ('name', 'description', 'company')
 
 
 class TransactionSerializer(LiquidatorSerializer):

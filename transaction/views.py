@@ -1,8 +1,24 @@
 from datetime import date
 from base.views import ListView, RetrieveCreateUpdateDestroyView, ByDateRangeView
 from base.mixins import CompanyFilterMixin
-from .serializers import TransactionSerializer, RecurringTransactionSerializer
-from .models import Transaction, TransactionStaticData, RecurringTransaction
+from .serializers import CategorySerializer, TransactionSerializer, RecurringTransactionSerializer
+from .models import Category, Transaction, TransactionStaticData, RecurringTransaction
+
+
+class CategoryMixin(CompanyFilterMixin):
+    lookup_field = 'id'
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+class CategoryView(CategoryMixin, RetrieveCreateUpdateDestroyView):
+    """Manage categories for a company."""
+    pass
+
+
+class CategoryAllView(CategoryMixin, ListView):
+    """Get all categories for a company."""
+    pass
 
 
 class TransactionMixin(CompanyFilterMixin):

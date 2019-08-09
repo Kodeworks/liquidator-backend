@@ -4,6 +4,27 @@ from django.db import models
 from company.models import Company
 
 
+class Category(models.Model):
+    """A company specific category, to aid in organizing transactions."""
+    name = models.CharField(max_length=50, help_text='The category display name')
+    description = models.CharField(max_length=128, help_text='A brief description of the type of transactions assigned to this category')
+
+    company = models.ForeignKey(
+        Company,
+        related_name='categories',
+        on_delete=models.CASCADE,
+        help_text='The company that uses this category'
+    )
+
+    class Meta:
+        verbose_name = 'category'
+        verbose_name_plural = 'categories'
+        ordering = ('name',)
+
+    def __str__(self):
+        return f'{self.name}: {self.description}'
+
+
 class TransactionStaticData(models.Model):
     INCOME = 'IN'
     EXPENSE = 'EX'
@@ -17,6 +38,13 @@ class TransactionStaticData(models.Model):
                             help_text='The type of transaction (income or expense)')
     description = models.TextField(help_text='A short description of what the transaction is for')
     notes = models.TextField(blank=True, help_text='A longer description and details about the transaction')
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        help_text='Transaction category',
+    )
 
     class Meta:
         abstract = True

@@ -4,8 +4,41 @@ from base.tests import JWTTestCase
 from custom_auth import roles
 from company.models import Company
 from company.tests import CompanyTestMixin
-from .models import Transaction, RecurringTransaction, TransactionTemplate, TransactionStaticData
+from .models import Category, Transaction, RecurringTransaction, TransactionTemplate, TransactionStaticData
 from . import views
+
+
+class CategoryTestMixin(CompanyTestMixin):
+    setup_create_company = True
+    setup_set_role = True
+    setup_create_user = True
+    setup_login = True
+
+    role = roles.OWNER
+
+    category_name = 'Category'
+    category_description = 'Lorem ipsum'
+
+    def create_category(self, name=None, description=None, company=None, save=True):
+        category = Category(name=(name or self.category_name),
+                            description=(description or self.category_description),
+                            company=(company or self.company))
+        if save:
+            category.save()
+        return category
+
+
+class CategoryTestCase(CategoryTestMixin, JWTTestCase):
+    def test_create_category(self):
+        created = self.create_category()
+        response = self.get(views.CategoryAllView)
+        # the request returns the expected status code
+        self.assertEquals(response.status_code, 200, msg=response.content)
+        # the request returns the expected number of results
+        self.assertEquals(len(response.data['results']), 1, msg=response.content)
+        # the returned data looks like the input data
+        self.assertEquals(response.data['results'][0]['description'], created.description,
+                          msg=response.content)
 
 
 class TransactionTestMixin(CompanyTestMixin):
