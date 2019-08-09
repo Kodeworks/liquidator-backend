@@ -8,4 +8,6 @@ urlpatterns = [
     path('byDateRange/', views.TransactionByDateRangeView.as_view(), name='transaction-by-date-range'),
     path('income/all/', views.TransactionIncomeAllView.as_view(), name='transaction-income-all'),
     path('expense/all/', views.TransactionExpenseAllView.as_view(), name='transaction-expense-all'),
+    path('category/', views.TransactionCategoryView.as_view(), name='transaction-category'),
+    path('category/all/', views.TransactionCategoryAllView.as_view(), name='transaction-category-all'),
 ]

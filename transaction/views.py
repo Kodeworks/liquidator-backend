@@ -61,6 +61,18 @@ class TransactionExpenseAllView(TransactionMixin, ListView):
         return super().get_queryset().filter(type=TransactionStaticData.EXPENSE)
 
 
+class TransactionCategoryView(TransactionMixin, RetrieveCreateUpdateDestroyView):
+    """Manage categories for a transaction."""
+    pass
+
+
+class TransactionCategoryAllView(TransactionMixin, ListView):
+    """Get all transactions by category."""
+    def get_queryset(self):
+        data = self.get_data()
+        return super().get_queryset().filter(category=data['category'])
+
+
 class RecurringTransactionMixin(CompanyFilterMixin):
     lookup_field = 'id'
     queryset = RecurringTransaction.objects.all()
